@@ -19,8 +19,8 @@ Contributions are welcome! Feel free to submit issues or pull requests with addi
 
 ## License
 
-[Specify your license here, e.g., MIT License]
+[MIT License]
 
 ## Contact
 
-For questions or collaboration, reach out at [your email or contact info]
+For questions or collaboration, reach out at jorgefelixgonzalezarias@pm.me

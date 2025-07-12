@@ -1,2 +1,26 @@
-# threat-intel-research
-A collection of original research on APTs, botnets, and malware, featuring detailed reports on campaigns, TTPs, IoCs, and defenses. Organized to help security professionals and researchers track and understand cyber threats.
+# Threat Intelligence Research
+
+This repository hosts original research and detailed reports on cyber threat actors including APTs, botnets, and malware. It provides insights into campaigns, TTPs, IoCs, and mitigation strategies.
+
+## Structure
+
+- `apt/` – Reports on Advanced Persistent Threat groups  
+- `botnets/` – Research on botnet operations  
+- `malware/` – Analyses of malware samples and behaviors  
+- `templates/` – Report templates and helpers
+
+## How to Use
+
+Explore the reports to learn about threat actor behaviors, indicators, and defenses. Use the provided IoCs and rules to enhance your security monitoring.
+
+## Contributing
+
+Contributions are welcome! Feel free to submit issues or pull requests with additional research or improvements.
+
+## License
+
+[Specify your license here, e.g., MIT License]
+
+## Contact
+
+For questions or collaboration, reach out at [your email or contact info]

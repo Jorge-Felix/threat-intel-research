@@ -19,7 +19,7 @@ Contributions are welcome! Feel free to submit issues or pull requests with addi
 
 ## License
 
-[MIT License]
+MIT License
 
 ## Contact
 

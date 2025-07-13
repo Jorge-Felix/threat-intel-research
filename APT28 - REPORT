@@ -1,0 +1,177 @@
+# APT28 (Fancy Bear) Threat Intelligence Report
+
+## Executive Summary
+
+APT28, also known as Fancy Bear, STRONTioned extensive cyber espionage campaigns against government, defense, media, and critical infrastructure sectors worldwide. This report focuses on the group's recent "Nearest Neighbor Campaign" (2022–2024), which targeted European governmental and energy-related entities using spear-phishing, credential harvesting, and sophisticated malware.
+
+## Attribution and Background
+
+* **Group**: APT28 (Fancy Bear, STRONTIUM, Sednit)
+* **Attribution**: Russian GRU (85th Main Special Service Center, Unit 26165)
+* **First Observed**: 2004
+* **Aliases**: Sofacy, Pawn Storm, Sednit, Tsar Team
+* **Motivation**: Espionage, geopolitical influence, information warfare
+* **Target Sectors**: Government, defense, energy, aerospace, media
+* **Primary Tools**: X-Agent, XTunnel, CHOPSTICK, Zebrocy, Sourface, SkinnyBoy
+
+APT28 is considered one of the most persistent and capable Russian cyber espionage actors. Their campaigns have been consistently aligned with Russian foreign policy objectives, including influence operations during foreign elections, compromise of defense-related organizations, and surveillance of dissident groups.
+
+## Campaign Overview
+
+* **Name**: Nearest Neighbor Campaign
+* **Active Period**: February 2022 – November 2024
+* **Primary Target Sectors**: Government, media, energy, defense
+* **Regions Affected**: France, Germany, Sweden, Norway, Ukraine, USA
+* **Initial Access Methods**: Spear-phishing, zero-day exploits, Wi-Fi compromise, credential stuffing
+
+This campaign targeted diplomatic and infrastructure networks through phishing lures disguised as government advisories or industry-specific newsletters. The attackers leveraged both widely known vulnerabilities and novel zero-day exploits to establish initial access. Once inside, the group deployed multiple layers of malware and engaged in long-term data exfiltration.
+
+## Malware Used
+
+APT28’s malware arsenal is modular and highly adaptable. Key malware families include:
+
+* **X-Agent**: Remote Access Trojan (RAT) designed to exfiltrate files, monitor user activity, and execute commands.
+* **XTunnel**: Network tunneling tool used to obfuscate outbound C2 traffic.
+* **Zebrocy**: Downloader and loader malware family frequently used in spear-phishing campaigns.
+* **CHOPSTICK**: Multicomponent RAT capable of keylogging, screenshot capture, and data staging.
+* **SOURFACE**: Reconnaissance and data collection tool.
+* **SkinnyBoy**: Newly attributed second-stage malware used for privilege escalation and reconnaissance.
+
+## Initial Access Vectors
+
+APT28 has consistently employed a combination of social engineering and technical exploits to gain a foothold in target environments.
+
+* Spear-phishing emails containing macro-laced Word or password-protected RAR files
+* Exploitation of public-facing applications (e.g., Microsoft Exchange CVE-2020-0688)
+* Web-based attacks, including XSS and SQL injection vulnerabilities
+* Compromise of unprotected Wi-Fi networks and default credentials in IoT devices
+* Credential stuffing attacks using leaked or reused passwords
+
+## Tactics, Techniques, and Procedures (TTPs)
+
+APT28 uses a broad spectrum of techniques throughout the kill chain. Below is a snapshot of the techniques mapped to MITRE ATT\&CK:
+
+| Tactic               | Technique                             | ID        | Description                                  |
+| -------------------- | ------------------------------------- | --------- | -------------------------------------------- |
+| Initial Access       | Spearphishing Attachment              | T1566.001 | Malicious documents delivered via email      |
+| Initial Access       | Exploit Public-Facing Application     | T1190     | Microsoft Exchange vulnerabilities exploited |
+| Execution            | PowerShell                            | T1059.001 | Scripts executed for credential collection   |
+| Persistence          | Registry Run Keys                     | T1547.001 | Run keys used to maintain persistence        |
+| Privilege Escalation | Exploitation for Privilege Escalation | T1068     | Multiple CVEs exploited                      |
+| Defense Evasion      | Obfuscated Files or Information       | T1027     | Base64, XOR, RC4 used for payload encoding   |
+| Credential Access    | Credential Dumping                    | T1003     | LSASS memory dumps, NTDS.dit, Mimikatz       |
+| Discovery            | Account Discovery                     | T1087     | Active Directory enumeration                 |
+| Lateral Movement     | Remote Desktop Protocol               | T1021.001 | RDP for internal pivoting                    |
+| Command & Control    | Web Protocols                         | T1071.001 | HTTP/S for C2 communications                 |
+| Exfiltration         | Exfiltration Over Web Service         | T1567     | Google Drive, HTTPS-based transfers          |
+
+Full mapping is available in the `ttp_mapping.json` file.
+
+## Indicators of Compromise (IoCs)
+
+APT28-related infrastructure changes frequently, but analysis of recent campaigns reveals recurring use of domains, IP addresses, and malware hashes. A sample list includes:
+
+**Domains:**
+
+* `malaytravelgroup[.]com`
+* `beststreammusic[.]com`
+* `picturecrawling[.]com`
+* `truefashionnews[.]com`
+
+**IP Addresses:**
+
+* `139.5.177.205`
+* `185.181.102.204`
+* `185.86.150.205`
+* `185.86.151.2`
+* `23.163.0.59`
+
+**Hashes (SHA-1):**
+
+* `46e2957e699fae6de1a212dd98ba4e2bb969497d` (chost.exe)
+* `c53930772beb2779d932655d6c3de5548810af3d` (msoutlook.dll)
+* `913ac13ff245baeff843a99dc2cbc1ff5f8c025c` (codexgigas file - Zebrocy)
+
+A complete list of IOCs is available in the `iocs.csv` file.
+
+## Detection Rules
+
+To assist in the identification of APT28 malware and network traffic, detection rules have been developed:
+
+* **YARA Rules**: For identifying CHOPSTICK, SOURFACE, and SkinnyBoy malware binaries
+* **Snort Rules**: For detecting C2 communication patterns used by X-Agent and XTunnel
+
+These detection artifacts are included in `yara_rules.yar` and `snort_rules.rules` respectively.
+
+## Detection Rule Samples
+
+### YARA Rule: CHOPSTICK
+
+```yara
+rule CHOPSTICK_Artifact {
+    meta:
+        description = "Detects CHOPSTICK malware variant used by APT28"
+        author = "Jorge Felix Gonzalez Arias"
+        reference = "APT28 Report"
+    strings:
+        $a = "Microsoft\Windows\CurrentVersion\Run" wide
+        $b = "Software\Microsoft\Windows\CurrentVersion\Policies" wide
+        $x = { E8 ?? ?? ?? ?? 68 ?? ?? ?? ?? FF D0 }
+    condition:
+        uint16(0) == 0x5A4D and 3 of them
+}
+```
+
+### Snort Rule: XTunnel C2
+
+```
+alert tcp $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (
+    msg:"APT28 XTunnel C2 Attempt";
+    flow:established,to_server;
+    content:"POST /data.cgi";
+    http_method;
+    content:"User-Agent|3A| Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+    classtype:trojan-activity;
+    sid:1000001;
+    rev:1;
+)
+```
+
+## Infrastructure and Command & Control (C2)
+
+APT28 demonstrates a sophisticated approach to C2 management. Tactics include:
+
+* Use of compromised third-party infrastructure and cloud platforms (e.g., Gmail, Google Drive)
+* Protocol blending using HTTP, HTTPS, IMAP, POP3, and SMTP to mimic legitimate traffic
+* Internal proxying with `netsh portproxy` to redirect local traffic
+* Traffic obfuscation via Tor nodes and commercial VPN services
+
+This layered infrastructure complicates attribution and detection efforts, emphasizing the group’s operational maturity.
+
+## Defensive Recommendations
+
+Organizations can reduce their exposure to APT28 by implementing layered defenses and proactive monitoring strategies:
+
+* Block all known IoCs across perimeter firewalls, proxies, and endpoint detection platforms
+* Monitor for anomalous PowerShell, rundll32, and Office macro behavior
+* Employ privilege monitoring to detect misuse of administrative accounts
+* Ensure regular patching of systems, especially Exchange and Outlook
+* Disable macros by default in Office applications
+* Incorporate YARA and Snort rules into network and endpoint detection systems
+
+Additionally, conducting regular threat hunting based on APT28’s TTPs using frameworks like MITRE ATT\&CK can aid in identifying hidden intrusions.
+
+## References
+
+* MITRE ATT\&CK: [https://attack.mitre.org/groups/G0007](https://attack.mitre.org/groups/G0007)
+* CrowdStrike: [https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/](https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/)
+* US DOJ Indictment: [https://www.justice.gov/opa/page/file/1098481/download](https://www.justice.gov/opa/page/file/1098481/download)
+* Cluster25: [https://cluster25.io/wp-content/uploads/2021/05/2021-05\_FancyBear.pdf](https://cluster25.io/wp-content/uploads/2021/05/2021-05_FancyBear.pdf)
+* Microsoft Security Blog, FireEye Reports, Recorded Future Threat Intelligence
+* Defense.gov (Drovorub, Brute Force Campaigns)
+
+---
+
+**Author**: Jorge Felix Gonzalez Arias
+**Date**: July 13, 2025
+**License**: MIT

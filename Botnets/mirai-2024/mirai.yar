@@ -1,4 +1,3 @@
-cat mirai_botnet_detection.yar 
 import "hash"
 import "pe"
 

@@ -1,4 +1,4 @@
-# Mirai Variant (2024) Threat Intelligence Report
+# Mirai Variant (2024-2025) Threat Intelligence Report
 
 ## Executive Summary
 

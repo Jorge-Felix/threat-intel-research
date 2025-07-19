@@ -41,6 +41,8 @@ Upon execution, the malware performs the following:
   * `185.125.190.49` (open ports: 22, 80, 123, 161, 443, 873, 9103)
   * `91.189.91.49`
   * `224.0.0.251` (multicast/mDNS)
+  * `6.14.0.32`
+  * `24.12.1.98`
 * **Domain**:
 
   * `10.100.168.192.in-addr.arpa`

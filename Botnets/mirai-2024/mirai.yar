@@ -35,6 +35,8 @@ rule Mirai_Botnet_Detection : MALW Mirai
         $ip_1          = "185.125.190.49"
         $ip_2          = "91.189.91.49"
         $ip_3          = "224.0.0.251"
+        $ip_4          = "24.12.1.98"
+        $ip_5          = "6.14.0.32"
         $domain_arpa   = "10.100.168.192.in-addr.arpa"
 
         // Commonly used ports

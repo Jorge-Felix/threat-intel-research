@@ -1,142 +1,138 @@
-# APT41 - Winnti or Barium
+# APT41 - Winnti o Barium
 
-## 1. General Identification
+## 1. Identificación General
 
-* **Campaign Name:** APT41 dust, C0017
-* **APT Group:** APT41 (also known as: Amoeba, BARIUM, BRONZE ATLAS, BRONZE EXPORT, Blackfly, Brass Typhoon, Double Dragon, Earth Baku, G0044, G0096, Grayfly, HOODOO, LEAD, Leopard Typhoon, Red Kelpie, TA415, TG-2633, WICKED PANDA, WICKED SPIDER, Winnti)
-* **Activity Date:** First campaign in May 2021 and latest in June 2024.
-* **Motivation:** State-sponsored espionage group that also conducts financially-motivated operations (cybercrime).
-* **Victimology:** Telecommunications providers in the United States, Australia, China (Tibet), Chile, India, Indonesia, Malaysia, Pakistan, Singapore, South Korea, Taiwan, and Thailand. They have targeted various industries including healthcare, telecom, technology, finance, education, retail, and video game industries across 14 countries.
+* **Nombre de la Campaña:** APT41 dust y C0017
+* **Grupo APT:** APT41 (también conocido como: Amoeba, BARIUM, BRONZE ATLAS, BRONZE EXPORT, Blackfly, Brass Typhoon, Double Dragon, Earth Baku, G0044, G0096, Grayfly, HOODOO, LEAD, Leopard Typhoon, Red Kelpie, TA415, TG-2633, WICKED PANDA, WICKED SPIDER, Winnti)
+* **Fecha de Actividad:** Primera campaña en mayo de 2021 y última en junio de 2024.
+* **Motivación:** APT41 es un grupo de amenazas que investigadores han evaluado como un grupo de espionaje patrocinado por el estado chino que también lleva a cabo operaciones con fines financieros. Activo desde al menos 2012, APT41 ha sido observado atacando diversas industrias, incluyendo salud, telecomunicaciones, tecnología, finanzas, educación, comercio minorista y la industria de los videojuegos en 14 países.
+* **Victimología:** Los acusados supuestamente atacaron a proveedores de telecomunicaciones en Estados Unidos, Australia, China (Tíbet), Chile, India, Indonesia, Malasia, Pakistán, Singapur, Corea del Sur, Taiwán y Tailandia.
 
-## 2. Objectives and Context
+## 2. Objetivos y Contexto
 
-* **Sectors Attacked:** As mentioned in the victimology, APT41 has targeted telecommunications providers and other industries such as healthcare, technology, finance, education, retail, and video games.
-* **Impacts and Public Statements:** Explicit information regarding specific economic, political, or technological impacts, as well as public statements from companies or governments, is not detailed in the provided sources.
+* **Sectores Atacados:** El grupo ha dirigido a proveedores de telecomunicaciones en varios países. También han sido observados atacando diversas industrias como salud, telecomunicaciones, tecnología, finanzas, educación, comercio minorista y la industria de los videojuegos.
+* **Impactos y Declaraciones Públicas:** La información explícita sobre impactos económicos, políticos o tecnológicos específicos, así como declaraciones públicas de empresas o gobiernos, no está detallada en las fuentes proporcionadas.
 
-## 3. Attack Vectors
+## 3. Vectores de Ataque
 
-* **Initial Access:**
-    * **Compromised Accounts:** APT41 has used stolen valid accounts for initial access and other operations (`T1078`).
-    * **Vulnerability Exploitation:** The use of the obfuscated BADPOTATO exploit has been observed for local privilege escalation.
-* **Other Vectors:** Specific information on spear-phishing with malicious PDF/Word attachments or the use of specific CVEs as an initial access vector is not detailed in the provided sources.
+* **Acceso Inicial:**
+    * **Cuentas Válidas:** APT41 ha utilizado cuentas válidas robadas para sus operaciones (`T1078`).
+    * **Explotación de Vulnerabilidades:** Se ha observado el uso de un exploit BADPOTATO ofuscado con ConfuserEx para abusar de la suplantación de nombres de tubería para la escalada de privilegios locales a `NT AUTHORITY\SYSTEM` (`T1134`).
+* **Otros Vectores:** La información específica sobre spear-phishing con adjuntos PDF/Word maliciosos o el uso de CVEs específicas como vector de acceso inicial no se encuentra detallada en las fuentes proporcionadas.
 
-## 4. Malware and Tools Used
+## 4. Malware y Herramientas Usadas
 
-APT41 uses a broad arsenal of tools and malware, including:
+APT41 utiliza un amplio arsenal de herramientas y malware, incluyendo:
 
-| Software/Tool | Description |
-| :------------ | :---------- |
-| Acunetix | Used for SQL injection vulnerability scanning. |
-| ADORE.XSEC | Backdoor exploited via a hidden script. |
-| Adore-NG | Rootkit used. |
-| ANTSWORD | Web shell for persistence. |
-| BADPOTATO | ConfuserEx obfuscated exploit for local privilege escalation. |
-| BLUEBEAM | Web shell for persistence. |
-| BrowserGhost | Tool to retrieve browser credentials. |
-| CLASSFON | Tool for network communication proxying. |
-| Cobalt Strike | Used for malware deployment and persistence (BEACON loader). |
-| ConfuserEx | Obfuscator used with the BADPOTATO exploit. |
-| CRACKSHOT | Known APT41 malware. |
-| DUSTPAN | Dropper and loader for decrypting embedded payloads, sometimes disguised as a legitimate binary. |
-| DUSTTRAP | Malware and components signed with stolen certificates, executed via DLL search order hijacking. |
-| Encryptor RaaS | Ransomware used to encrypt files. |
-| HIGHNOON | Variety of malware to enumerate active RDP sessions. |
-| JexBoss | Tool to identify vulnerabilities in Java applications. |
-| KEYPLUG | Windows backdoor with frequently updated dead drop resolvers. |
-| LOWKEY.PASSIVE | Passive backdoor configured to disguise web traffic. |
-| Mimikatz | Used to dump password hashes from memory. |
-| MiPing | Used to discover active systems on the victim's network. |
-| NATBypass | Used to bypass firewall restrictions and access compromised systems via RDP. |
-| PINEGROVE | Used to collect information from local systems and databases. |
-| POISONPLUG | Known APT41 malware. |
-| PowerSploit | Used for persistence via WMI. |
-| Procdump | Used to dump password hashes from memory. |
-| Speculoos Backdoor | Backdoor used by APT41. |
-| SQLULDR2 | Used to collect data from Oracle databases. |
-| TIDYELF | Malware that loads the main WINTERLOVE component by injecting it into `iexplore.exe`. |
-| WIDETONE | Variety of malware to perform port scans on specific subnets. |
-| Windows Credential Editor | Used to dump password hashes from memory. |
-| WINTERLOVE | Main component loaded by TIDYELF. |
-| Winnti | Used for Windows, loaded via DLL search order hijacking. |
-| YSoSerial.NET | Deserialization exploitation tool. |
+| Software/Herramienta | Descripción |
+| :------------------- | :---------- |
+| Acunetix | Usado para escaneo de vulnerabilidades SQL injection. |
+| ADORE.XSEC | Backdoor aprovechado a través de un script oculto. |
+| Adore-NG | Rootkit utilizado. |
+| ANTSWORD | Web shell para persistencia. |
+| BADPOTATO | Exploit ofuscado con ConfuserEx para escalada de privilegios locales. |
+| BLUEBEAM | Web shell para persistencia. |
+| BrowserGhost | Herramienta para obtener credenciales de navegadores. |
+| CLASSFON | Herramienta para proxy de comunicaciones de red. |
+| Cobalt Strike | Usado para despliegue de malware y persistencia (BEACON loader). |
+| ConfuserEx | Obfuscador usado con el exploit BADPOTATO. |
+| CRACKSHOT | Malware conocido de APT41. |
+| DUSTPAN | Dropper y loader para descifrar payloads incrustados, a veces disfrazado de binario legítimo. |
+| DUSTTRAP | Malware y componentes firmados con certificados robados, ejecutado vía secuestro de orden de búsqueda de DLL. |
+| Encryptor RaaS | Ransomware usado para cifrar archivos. |
+| HIGHNOON | Variedad de malware para enumerar sesiones RDP activas. |
+| JexBoss | Herramienta para identificar vulnerabilidades en aplicaciones Java. |
+| KEYPLUG | Backdoor de Windows con resolvers dead drop actualizados frecuentemente. |
+| LOWKEY.PASSIVE | Backdoor pasivo configurado para disfrazar el tráfico web. |
+| Mimikatz | Usado para volcar hashes de contraseñas de la memoria. |
+| MiPing | Usado para descubrir sistemas activos en la red de la víctima. |
+| NATBypass | Usado para evadir restricciones de firewall y acceder a sistemas comprometidos vía RDP. |
+| PINEGROVE | Usado para recolectar información de sistemas locales y bases de datos. |
+| POISONPLUG | Malware conocido de APT41. |
+| PowerSploit | Usado para persistencia vía WMI. |
+| Procdump | Usado para volcar hashes de contraseñas de la memoria. |
+| Speculoos Backdoor | Backdoor utilizado por APT41. |
+| SQLULDR2 | Usado para recolectar datos de bases de datos Oracle. |
+| TIDYELF | Malware que carga el componente principal de WINTERLOVE inyectándolo en `iexplore.exe`. |
+| WIDETONE | Variedad de malware para realizar escaneos de puertos en subredes específicas. |
+| Windows Credential Editor | Usado para volcar hashes de contraseñas de la memoria. |
+| WINTERLOVE | Componente principal cargado por TIDYELF. |
+| Winnti | Usado para Windows, cargado vía secuestro de orden de búsqueda de DLL. |
+| YSoSerial.NET | Herramienta de explotación de deserialización. |
 
-* **Common Techniques:**
-    * **DLL Sideloading:** Observed with malware like `Winnti`, which is loaded via DLL search order hijacking.
-    * **Living off the Land Binaries (LOLBins):** While "LOLBins" is not explicitly mentioned, the group uses built-in system tools such as `net` commands and `makecab.exe` for various operations.
-* **Specific Backdoors:** Tools like Voldemort, Spark, or HealthKick are not specifically mentioned in the provided sources.
+* **Técnicas Comunes:**
+    * **DLL Sideloading:** Observado con malware como `Winnti` que se carga a través del secuestro de orden de búsqueda de DLL.
+    * **Living off the Land Binaries (LOLBins):** Aunque no se menciona explícitamente "LOLBins", el grupo utiliza herramientas incorporadas del sistema como comandos `net` y `makecab.exe` para diversas operaciones.
+* **Backdoors Específicas:** Las herramientas como Voldemort, Spark o HealthKick no se mencionan específicamente en las fuentes proporcionadas.
 
-## 5. TTPs (MITRE ATT&CK Mapped)
+## 5. TTPs (MITRE ATT&CK Mapeados)
 
-APT41 employs a variety of TTPs to carry out its operations, mapped to MITRE ATT&CK (version v4.1 - attack v17):
+APT41 emplea una variedad de TTPs para llevar a cabo sus operaciones, mapeadas a MITRE ATT&CK (versión v4.1 - attack v17):
 
 * **Initial Access**
-    * `T1078: Valid Accounts` - The use of compromised valid accounts for initial access.
+    * `T1078: Cuentas Válidas` - El uso de cuentas válidas robadas.
 * **Execution**
-    * `T1047: Windows Management Instrumentation` - Use of WMI for command execution (WMIEXEC) and persistence (PowerSploit).
-    * `T1059.003: Windows Command Shell` - Use of `cmd.exe` for command execution.
+    * `T1047: Ejecución a través de Windows Management Instrumentation` - Uso de WMI para la ejecución de comandos y persistencia.
+    * `T1059.003: Shell de Comandos de Windows` - Uso de `cmd.exe` para la ejecución de comandos.
 * **Persistence**
-    * `T1547.001: Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder` - Use of the registry `Run` key for automatic execution.
+    * `T1547.001: Entrada de Registro Run Keys / Startup Folder` - Uso de la clave `Run` del registro para la ejecución automática.
 * **Privilege Escalation**
-    * `T1134: Token Manipulation` - Use of the obfuscated BADPOTATO exploit for local privilege escalation to `NT AUTHORITY\SYSTEM`.
+    * `T1134: Manipulación de Token` - Uso del exploit BADPOTATO ofuscado para escalada de privilegios locales a `NT AUTHORITY\SYSTEM`.
 * **Defense Evasion**
-    * `T1027.002: Obfuscated Files or Information: Software Packing` - Employment of string obfuscation.
-    * `T1218.011: Signed Binary Proxy Execution: Rundll32` - Technique observed with malware like `Winnti` via DLL sideloading.
+    * `T1027.002: Obfuscación de Archivos o Información: Software Packing` - Empleo de la ofuscación de cadenas.
+    * `T1218.011: Ejecución de Binarios Firmados de Proxy: Rundll32` - Técnica observada con malware como `Winnti` vía DLL sideloading.
 * **Credential Access**
-    * `T1003: OS Credential Dumping` - Use of tools like Mimikatz, `pwdump`, and Windows Credential Editor to dump password hashes.
+    * `T1003: Acceso a Credenciales` - Uso de herramientas para volcar hashes de contraseñas de la memoria.
 * **Discovery**
-    * `T1087.001: Account Discovery: Domain Account` - Enumeration of domain administrator users.
-    * `T1087.002: Account Discovery: Local Account` - Enumeration of local administrator groups.
+    * `T1087.001: Cuentas de Dominio` - Enumeración de usuarios administradores de dominio.
+    * `T1087.002: Cuentas Locales` - Enumeración de grupos de administradores locales.
 * **Collection**
-    * `T1005: Data from Local System` - Use of tools like PINEGROVE to collect information from local systems and databases.
-    * `T1560.001: Archive Collected Data: Archive via Utility` - Use of `makecab.exe` to compress data.
+    * `T1005: Datos del Sistema Local` - Uso de herramientas para recolectar información de sistemas locales y bases de datos.
+    * `T1560.001: Archivos Comprimidos` - Uso de `makecab.exe` para comprimir datos.
 * **Lateral Movement**
-    * `T1021.001: Remote Services: Remote Desktop Protocol` - Use of RDP for access to compromised systems.
+    * `T1021.001: Escritorio Remoto` - Uso de RDP para el acceso a sistemas comprometidos.
 * **Command and Control**
-    * `T1071.001: Application Layer Protocol: Web Protocols` - Use of legitimate websites (GitHub, Pastebin, Microsoft TechNet) as "dead drop resolvers" for C2.
-    * `T1090: Proxy` - Use of the MiPing proxy tool for network communications.
+    * `T1071.001: Protocolos de Capa de Aplicación Web` - Uso de sitios web legítimos como "dead drop resolvers" para C2.
+    * `T1090: Proxy` - Uso de la herramienta de proxy MiPing para comunicaciones de red.
 
-Techniques T1566.001 (Phishing: Spearphishing Attachment) and T1041 (Exfiltration Over C2 Channel) are not explicitly detailed in the provided JSON or PDF with a direct MITRE ATT&CK ID associated with APT41's observed behavior.
+Las técnicas T1566.001 (phishing attachment) y T1041 (Exfil over C2 Channel) no están explícitamente detalladas con un ID de MITRE ATT&CK en las fuentes proporcionadas para este grupo.
 
-## 6. C2 Infrastructure
+## 6. Infraestructura C2
 
-* **Connection Methods:** APT41 has utilized legitimate websites such as GitHub, Pastebin, and Microsoft TechNet as "dead drop resolvers" (DDR) for their Command and Control (C2) communications, frequently updating posts. Communications implicitly involve web application layer protocols like HTTP.
-* **TLS Certificates:** The group has used revoked certificates in some of its operations. YARA rules include signatures for these certificates.
-* **Public IPs, Open Ports, Specific Domains, GeoIP/Reputation:** Detailed information regarding specific public IPs, open ports, exclusive malicious C2 domains, as well as GeoIP data or IP reputation, is not found in the provided sources.
+* **Métodos de Conexión:** APT41 ha utilizado sitios web legítimos como GitHub, Pastebin y Microsoft TechNet como "dead drop resolvers" (DDR) para sus comunicaciones de Comando y Control (C2), actualizando frecuentemente las publicaciones. Las comunicaciones implican protocolos de capa de aplicación web como HTTP.
+* **Certificados TLS:** El grupo ha utilizado certificados revocados en algunas de sus operaciones. Las reglas YARA incluyen firmas para estos certificados.
+* **IPs Públicas, Puertos Abiertos, GeoIP/Reputación:** La información detallada sobre IPs públicas específicas, puertos abiertos, así como datos de GeoIP o reputación de IP, no se encuentra en las fuentes proporcionadas.
 
-## 7. Indicators of Compromise (IoCs)
+## 7. Indicadores de Compromiso (IoCs)
 
-### Hashes
+### Hashes y Nombres de Archivo
 
-* **POISONPLUG:** `70c03ce5c80aca2d35a5555b0532eedede24d4cc6bdb32a2c8f7e630bba5f26e`, `0055dfaccc952c99b1171ce431a02abfce5c6f8fb5dc39e4019b624a7d03bfcb`, `2eea29d83f485897e2bac9501ef000cc266ffe10019d8c529555a3435ac4aabd`, `5d971ed3947597fbb7e51d806647b37d64d9fe915b35c7c9eaf79a37b82dab90`, `f4d57acde4bc546a10cd199c70cdad09f576fdfe66a36b08a00c19ff6ae19661`, `3e6c4e97cc09d0432fbbbf3f3e424d4aa967d3073b6002305cd6573c47f0341f`
-* **POISONPLUG SHADOW:** `462a02a8094e833fd456baf0a6d4e18bb7dab1a9f74d5f163a8334921a4ffde8`
-* **CRACKSHOT:** `993d14d00b1463519fea78ca65d8529663f487cd76b67b3fd35440bcdf7a8e31`
-* **HIGHNOON:** `63e8ed9692810d562adb80f27bb1aeaf48849e468bf5fd157bc83ca83139b6d7`, `4aa6970cac04ace4a930de67d4c18106cf4004ba66670cfcdaa77a4c4821a213`
-* **HIGHNOON.BIN:** `490c3e4af829e85751a44d21b25de1781cfe4961afdef6bb5759d9451f530994`, `79190925bd1c3fae65b0d11db40ac8e61fb9326ccfed9b7e09084b891089602d`, `c51c5bbc6f59407286276ce07f0f7ea994e76216e0abe34cbf20f1b1cbd9446d`
-* **Speculoos Backdoor:** `6943fbb194317d344ca9911b7abb11b684d3dca4c29adcbcff39291822902167`, `99c5dbeb545af3ef1f0f9643449015988c4e02bf8a7164b5d6c86f67e6dc2d28`
-* **`7.dll.exe`:** `151257e9dfda476cdafd9983266ad3255104d72a66f9265caa8417a5fe1df5d7`
+| Nombre de Archivo | SHA256 Hash | MD5 Hash |
+| :---------------- | :---------- | :------- |
+| `出境海關申報清單.zip` | `469b534bec827be03c0823e72e7b4da0b84f53199040705da203986ef154406a` | `876fb1b0275a653c4210aaf01c2698ec` |
+| `申報物品清單.pdf.lnk` | `3b88b3efbdc86383ee9738c92026b8931ce1c13cd75cd1cda2fa302791c2c4fb` | `65da1a9026cf171a5a7779bc5ee45fb1` |
+| `6.jpg` | `50124174a4ac0d65bf8b6fd66f538829d1589edc73aa7cf36502e57aa5513360` | `1ca609e207edb211c8b9566ef35043b67` |
+| `16.jpg` | `151257e9dfda476cdafd9983266ad3255104d72a66f9265caa8417a5fe1df5d7` | `2ec4eeeabb8f6c2970dcbffdcdbd60e3` |
+| **POISONPLUG:** | `70c03ce5c80aca2d35a5555b0532eedede24d4cc6bdb32a2c8f7e630bba5f26e`, `0055dfaccc952c99b1171ce431a02abfce5c6f8fb5dc39e4019b624a7d03bfcb`, `2eea29d83f485897e2bac9501ef000cc266ffe10019d8c529555a3435ac4aabd`, `5d971ed3947597fbb7e51d806647b37d64d9fe915b35c7c9eaf79a37b82dab90`, `f4d57acde4bc546a10cd199c70cdad09f576fdfe66a36b08a00c19ff6ae19661`, `3e6c4e97cc09d0432fbbbf3f3e424d4aa967d3073b6002305cd6573c47f0341f` | |
+| **POISONPLUG SHADOW:** | `462a02a8094e833fd456baf0a6d4e18bb7dab1a9f74d5f163a8334921a4ffde8` | |
+| **CRACKSHOT:** | `993d14d00b1463519fea78ca65d8529663f487cd76b67b3fd35440bcdf7a8e31` | |
+| **HIGHNOON:** | `63e8ed9692810d562adb80f27bb1aeaf48849e468bf5fd157bc83ca83139b6d7`, `4aa6970cac04ace4a930de67d4c18106cf4004ba66670cfcdaa77a4c4821a213` | |
+| **HIGHNOON.BIN:** | `490c3e4af829e85751a44d21b25de1781cfe4961afdef6bb5759d9451f530994`, `79190925bd1c3fae65b0d11db40ac8e61fb9326ccfed9b7e09084b891089602d`, `c51c5bbc6f59407286276ce07f0f7ea994e76216e0abe34cbf20f1b1cbd9446d` | |
+| **Speculoos Backdoor:** | `6943fbb194317d344ca9911b7abb11b684d3dca4c29adcbcff39291822902167`, `99c5dbeb545af3ef1f0f9643449015988c4e02bf8a7164b5d6c86f67e6dc2d28` | |
+| **`7.dll.exe`:** | `151257e9dfda476cdafd9983266ad3255104d72a66f9265caa8417a5fe1df5d7` | |
+| **Otros Nombres de Archivo Sospechosos:** | `ma_lockdown_service.dll`, `acbde.dll`, `TSMSISrv.DLL`, `tcpview.exe`, `procmon64.exe`, `netmon.exe`, `MiniSniffer.exe`, `smsniff.exe`, `workdll64.dll`, `PlusDll.dll`, `ShutDownEvent.dll`, `badshell`, `hw.physmem` | |
 
-### Domains and URLs
+### Dominios C2
 
-* Legitimate websites used for C2 (dead drop resolvers - DDR): GitHub, Pastebin, Microsoft TechNet.
+* `word[.]msapp[.]workers[.]dev`
+* `cloud[.]msapp[.]workers[.]dev`
+* `term-restore-satisfied-hence[.]trycloudflare[.]com`
+* `ways-sms-pmc-shareholders[.]trycloudflare[.]com`
+* `resource[.]infinityfreeapp[.]com`
+* `pubs[.]infinityfreeapp[.]com`
+* Sitios web legítimos usados para C2 (dead drop resolvers - DDR): GitHub, Pastebin, Microsoft TechNet.
 
-### Suspicious File Names
-
-* `ma_lockdown_service.dll`
-* `acbde.dll`
-* `TSMSISrv.DLL`
-* `tcpview.exe`
-* `procmon64.exe`
-* `netmon.exe`
-* `MiniSniffer.exe`
-* `smsniff.exe`
-* `workdll64.dll`
-* `PlusDll.dll`
-* `ShutDownEvent.dll`
-* `badshell`
-* `hw.physmem`
-* `7.dll.exe`
-
-### Common Paths
+### Rutas Comunes
 
 * `\Fonts\Error.log`
 * `\svchost.exe`
@@ -148,23 +144,24 @@ Techniques T1566.001 (Phishing: Spearphishing Attachment) and T1041 (Exfiltratio
 * `\RbDoorX64.pdb` (PDB path)
 * `%s\NtKlRes.dat`
 * `/usr/sbin/config.bak`
-* `nuR\noisreVtnerruC\swodniW\tfosorciM\erawtfoS` (reversed version of `Software\Microsoft\Windows\CurrentVersion\Run`)
+* `nuR\noisreVtnerruC\swodniW\tfosorciM\erawtfoS` (versión inversa de `Software\Microsoft\Windows\CurrentVersion\Run`)
 
-### Suspicious Strings and Signatures
+### Cadenas Sospechosas y Firmas
 
-The YARA rules provided in `apt41.yar` contain a variety of suspicious strings and other signatures that can be used for the detection of APT41 activity.
+Las reglas YARA proporcionadas en `apt41.yar` contienen una variedad de cadenas sospechosas y otras firmas que pueden ser utilizadas para la detección de la actividad de APT41.
 
-## 8. Detection
+## 8. Detección
 
-* **YARA Rules:** Custom YARA rules for specific APT41 executables and payloads are available in the `apt41.yar` file in this repository. These rules enable signature-based detection of the group's artifacts.
-* **Observable Behavior:** The TTPs mapped to MITRE ATT&CK provide guidance for observable behavior, including processes, registry key modifications (such as `Run` keys), unusual network traffic (connections to legitimate sites used as C2), and the use of system tools for malicious purposes.
-* **Sigma, Snort/Suricata Rules:** Information for generating specific Sigma or Snort/Suricata rules is not explicitly provided in the source materials.
+* **Reglas YARA:** Reglas YARA personalizadas para ejecutables y payloads específicos de APT41 están disponibles en el archivo `apt41.yar` en este repositorio. Estas reglas permiten la detección basada en firmas de los artefactos del grupo.
+* **Comportamiento Observable:** Los TTPs mapeados a MITRE ATT&CK ofrecen una guía para el comportamiento observable, incluyendo procesos, modificaciones de claves de registro (como `Run` keys), tráfico de red inusual y uso de herramientas del sistema para tareas maliciosas.
+* **Reglas Sigma, Snort/Suricata:** La información para generar reglas Sigma o Snort/Suricata no se encuentra explícitamente en las fuentes proporcionadas.
 
-## 9. Mitigation and Defense
+## 9. Mitigación y Defensa
 
-Detailed information on specific mitigation and defense strategies (such as phishing blocking, endpoint hardening, incident response procedures, or IoC blocklists) is not explicitly found in the provided sources. However, the YARA rules and IoCs can be used to feed security systems for detection and containment.
+* Al detectar artefactos de APT41 utilizando la regla YARA de este mismo documento, estos deben ser contenidos y aislados completamente, y puestos en cuarentena.
+* La información detallada sobre otras estrategias específicas de mitigación y defensa (como phishing blocking, endpoint hardening, o procedimientos de respuesta a incidentes) no se encuentra explícitamente en las fuentes proporcionadas.
 
-## 10. References
+## 10. Referencias
 
 * [FireEye: APT41 Dual Espionage and Cyber Crime Operation](https://www.fireeye.com/blog/threat-research/2019/08/apt41-dual-espionage-and-cyber-crime-operation.html)
 * [Palo Alto Networks Unit 42: APT41 Using New Speculoos Backdoor to Target Organizations Globally](https://unit42.paloaltonetworks.com/apt41-using-new-speculoos-backdoor-to-target-organizations-globally/)

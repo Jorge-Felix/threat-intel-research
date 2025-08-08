@@ -1,3 +1,7 @@
+Gracias por la actualización. Dado que las IPs anteriores ya no están activas, podemos eliminarlas del reporte y dejar solo las nuevas. Aquí tienes la versión actualizada del informe:
+
+---
+
 # Mirai Variant (2024-2025) Threat Intelligence Report
 
 ## Executive Summary
@@ -38,14 +42,13 @@ Upon execution, the malware performs the following:
 
 * **Active IPs**:
 
-  * `185.125.190.49` (open ports: 22, 80, 123, 161, 443, 873, 9103)
-  * `91.189.91.49`
-  * `224.0.0.251` (multicast/mDNS)
-  * `6.14.0.32`
-  * `24.12.1.98`
-* **Domain**:
+  * `190.217.148.227:4886` (critical, Chile)
+  * `179.51.168.26:10428` (critical, Chile)
+  * `164.77.147.186:12652` (critical, privacy)
+  * `186.67.227.98:65300` (critical, Chile)
+  * `200.72.199.205:1542` (critical, Chile)
+  * `216.155.93.238:33194` (critical, Chile)
 
-  * `10.100.168.192.in-addr.arpa`
 * **C2 Communication**:
 
   * Uses TCP, HTTP, Telnet
@@ -53,7 +56,20 @@ Upon execution, the malware performs the following:
 
 ## Technical Indicators (Partial)
 
-### Sample Hashes:
+### New IOC Indicators:
+
+| **Indicator**                                                  | **Type** | **Risk** | **Added**           | **Updated**         | **Seen**            | **Retired** | **Reference**                                                        | **Geo Location**       |
+| -------------------------------------------------------------- | -------- | -------- | ------------------- | ------------------- | ------------------- | ----------- | -------------------------------------------------------------------- | ---------------------- |
+| [http://190.217.148.227:4886/i](http://190.217.148.227:4886/i) | URL      | Critical | 2024-04-12 10:50:49 | 2025-08-07 22:31:22 | 2025-08-07 22:31:22 | N/A         | [PulseDive Indicator](https://pulsedive.com/indicator/?iid=58248076) | Osorno, Chile          |
+| [http://179.51.168.26:10428/i](http://179.51.168.26:10428/i)   | URL      | Critical | 2024-04-12 10:50:53 | 2025-08-07 22:31:40 | 2025-08-07 22:31:40 | N/A         | [PulseDive Indicator](https://pulsedive.com/indicator/?iid=58248122) | Paine, Chile           |
+| [http://164.77.147.186:12652/i](http://164.77.147.186:12652/i) | URL      | Critical | 2024-04-16 18:04:08 | 2025-08-07 00:41:23 | 2025-08-07 00:41:23 | N/A         | [PulseDive Indicator](https://pulsedive.com/indicator/?iid=58412218) | \[Privacy], \[Privacy] |
+| [http://186.67.227.98:65300/i](http://186.67.227.98:65300/i)   | URL      | Critical | 2024-04-16 18:04:09 | 2025-08-02 00:12:07 | 2025-08-02 00:12:07 | N/A         | [PulseDive Indicator](https://pulsedive.com/indicator/?iid=58412221) | Santiago, Chile        |
+| [http://200.72.199.205:1542/i](http://200.72.199.205:1542/i)   | URL      | Critical | 2024-04-16 18:04:09 | 2025-08-07 00:41:21 | 2025-08-07 00:41:21 | N/A         | [PulseDive Indicator](https://pulsedive.com/indicator/?iid=58412224) | Santiago, Chile        |
+| [http://216.155.93.238:33194/i](http://216.155.93.238:33194/i) | URL      | Critical | 2024-04-16 18:04:09 | 2025-08-07 00:41:21 | 2025-08-07 00:41:21 | N/A         | [PulseDive Indicator](https://pulsedive.com/indicator/?iid=58412225) | Quell�n, Chile         |
+
+---
+
+### Sample Hashes (Updated):
 
 * `57573779f9a62eecb80737d41d42165af8bb9884579c50736766abb63d2835ba`
 * `72a4fa3544e43a836ffcb268ce06ccdbc55d44d5e6b1b1c19216a53ea98301fd`
@@ -110,3 +126,7 @@ Generic and architecture-specific YARA rules for detection included in `mirai.ya
 **Author**: Jorge Felix Gonzalez Arias
 **Date**: July 14, 2025
 **License**: MIT
+
+---
+
+Este es el reporte actualizado con las IPs activas actuales y la eliminación de las anteriores. Si necesitas alguna modificación adicional, ¡avísame!

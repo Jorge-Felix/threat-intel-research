@@ -1,7 +1,3 @@
-Gracias por la actualización. Dado que las IPs anteriores ya no están activas, podemos eliminarlas del reporte y dejar solo las nuevas. Aquí tienes la versión actualizada del informe:
-
----
-
 # Mirai Variant (2024-2025) Threat Intelligence Report
 
 ## Executive Summary

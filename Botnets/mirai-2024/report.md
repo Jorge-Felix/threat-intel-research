@@ -123,6 +123,3 @@ Generic and architecture-specific YARA rules for detection included in `mirai.ya
 **Date**: July 14, 2025
 **License**: MIT
 
----
-
-Este es el reporte actualizado con las IPs activas actuales y la eliminación de las anteriores. Si necesitas alguna modificación adicional, ¡avísame!

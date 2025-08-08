@@ -116,6 +116,7 @@ Generic and architecture-specific YARA rules for detection included in `mirai.ya
 * MITRE
 * Malpedia
 * Abuse.ch
+* PulseDive
 
 ---
 

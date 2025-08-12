@@ -1,178 +1,182 @@
-Claro, aquí tienes un informe de CTI basado en el documento "Entra Account Storm Campaign.pdf".
+# CTI Report: Entra Account Storm Campaign
+
+## 1. Executive Summary
+
+The "Entra Account Storm Campaign" is a targeted cyberattack campaign focused on Microsoft Entra ID accounts. Threat actors, identified as **Storm-2372** and **Storm-0558**, use automated tools to perform password spraying, gain unauthorized access, and exfiltrate data. The attacks occur in waves, often originating from cloud services like AWS, combining stealth with bursts of intense activity. This campaign highlights the significant risks posed by weak credentials and insufficient cloud security monitoring.
+
+*   **Detected Activity Period:** The campaign has been active since at least December 2024, with a peak in activity observed in January and February 2025.
+*   **Affected Industries:** Government, NGOs, IT services, technology, defense, telecommunications, healthcare, and energy/oil & gas.
+*   **Affected Regions:** Attacks originate primarily from infrastructure in the United States (Virginia) and Ireland (Dublin).
 
 ---
 
-# **Informe de Inteligencia de Amenazas Cibernéticas (CTI): Entra Account Storm Campaign**
+## 2. Context and Origin
 
-**TLP:GREEN**
+*   **First Documented Detections:** Microsoft was first notified of anomalous data access on June 16, 2023, which was attributed to the threat actor **Storm-0558**. The actor was observed accessing Exchange Online data via Outlook Web Access (OWA).
+*   **Probable Motivation:** The primary motivation appears to be espionage and data theft. The actor targets organizations to gain unauthorized access to email accounts and sensitive data through credential harvesting, phishing, and OAuth token attacks.
+*   **Attribution:** Microsoft Threat Intelligence assesses with moderate confidence that **Storm-0558** is a China-based threat actor. While there are minor overlaps with other groups like Violet Typhoon (APT31), Storm-0558 is considered a distinct group.
 
-## 1. Resumen Ejecutivo
+---
 
-La "Entra Account Storm Campaign" es una campaña de ciberataque dirigida contra cuentas de Microsoft Entra ID. El actor de amenazas, identificado como **Storm-0558**, utiliza ataques de `Password Spraying` desde infraestructura en la nube (principalmente AWS) para obtener acceso no autorizado. El objetivo principal es el espionaje y la exfiltración de datos sensibles, como correos electrónicos y documentos de SharePoint. La campaña, activa desde al menos junio de 2023 con picos de actividad a principios de 2025, afecta a una amplia gama de industrias a nivel mundial, destacando la vulnerabilidad inherente a las credenciales débiles y la necesidad de una monitorización de seguridad robusta en la nube.
+## 3. Tactics, Techniques, and Procedures (TTPs)
 
-| Atributo | Descripción |
-| :--- | :--- |
-| **Nombre de la Campaña** | Entra Account Storm Campaign |
-| **Actor de Amenazas** | Storm-0558 |
-| **Objetivo Principal** | Espionaje y exfiltración de datos (correos, archivos). |
-| **Vector Principal** | Password Spraying (T1110.003) |
-| **Periodo de Actividad** | Detectado desde junio de 2023, con un pico en enero-febrero de 2025. |
-| **Impacto Potencial** | Robo de datos, escalada de privilegios, pérdida de confianza, sanciones regulatorias. |
+The campaign utilizes the following MITRE ATT&CK techniques:
 
-## 2. Atribución y Motivación
-
-*   **Actor de Amenazas:** Microsoft atribuye la campaña con **confianza media** a **Storm-0558**, un actor de amenazas basado en China. Aunque se han encontrado solapamientos mínimos con otros grupos como Violet Typhoon (APT31), Microsoft considera que Storm-0558 opera de forma independiente.
-*   **Motivación:** El objetivo principal es el **espionaje**. El actor muestra un interés persistente en obtener acceso no autorizado a cuentas de correo y datos de organizaciones en sectores específicos para la recolección de inteligencia. Sus tácticas se centran en el robo de credenciales, phishing y ataques a tokens de OAuth.
-
-## 3. Victimología
-
-La campaña tiene un alcance global y se dirige a sectores que gestionan datos críticos.
-
-*   **Industrias Afectadas:**
-    *   Gobierno
-    *   Organizaciones No Gubernamentales (ONG)
-    *   Servicios de TI y Tecnología
-    *   Defensa
-    *   Telecomunicaciones
-    *   Salud
-    *   Energía, Petróleo y Gas
-    *   Medios de comunicación
-    *   Think Tanks
-
-## 4. Tácticas, Técnicas y Procedimientos (TTPs) - Mapeo MITRE ATT&CK
-
-| Táctica | Técnica (ID) | Sub-Técnica (ID) | Descripción |
+| Tactic | Technique ID | Technique Name | Description |
 | :--- | :--- | :--- | :--- |
-| **Escalada de Privilegios** | Exploitation for Privilege Escalation (T1068) | | Los atacantes explotan vulnerabilidades de software para ejecutar código con permisos elevados. |
-| **Escalada de Privilegios** | Access Token Manipulation (T1134) | | Manipulan tokens de acceso para ejecutar procesos en el contexto de seguridad de otro usuario (ej. SYSTEM). |
-| **Acceso a Credenciales** | Brute Force (T1110) | Password Spraying (T1110.003) | Prueban una contraseña común contra múltiples cuentas para evitar bloqueos y explotar credenciales débiles. |
+| Privilege Escalation | T1068 | Exploitation for Privilege Escalation | Attackers exploit software vulnerabilities to execute code with elevated permissions. This includes "Bring Your Own Vulnerable Driver" (BYOVD) tactics to bypass system restrictions. |
+| Privilege Escalation, Defense Evasion | T1134 | Access Token Manipulation | The actor modifies access tokens to operate under a different user's security context (e.g., SYSTEM), evading standard access controls. APIs like `LogonUser` and `DuplicateTokenEx` are used for this purpose. |
+| Credential Access | T1110 | Brute Force | This technique involves systematically guessing credentials. The campaign specifically uses the following sub-technique: |
+| Credential Access | T1110.003 | Password Spraying | Instead of targeting one account with many passwords, the attacker uses a single common password against many different accounts. This method avoids account lockouts and effectively exploits weak or common passwords across an organization. |
 
-## 5. Infraestructura de Ataque
+---
 
-*   **Proveedor de Hosting:** La infraestructura de ataque se aloja predominantemente en **Amazon Web Services (AWS)**, utilizando el ASN **AS14618 (AMAZON-AES)**.
-*   **Ubicación Geográfica de Nodos:**
-    *   La mayoría de las direcciones IP están ubicadas en **Ashburn, Virginia, Estados Unidos**.
-    *   Una dirección IP fue identificada en **Dublin, Irlanda**.
-    *   Los servicios utilizados se identifican como servidores proxy públicos.
+## 4. Infrastructure and Hosting
 
-## 6. Indicadores de Compromiso (IoCs)
+*   **Cloud Providers:** The attack infrastructure is hosted on **Amazon Web Services (AWS)**. All identified IoCs belong to ASN **AS14618 (AMAZON-AES)**.
+*   **Geographic Location of Attack Nodes:**
+    *   **Primary:** Ashburn, Virginia, United States
+    *   **Secondary:** Dublin, Ireland
 
-Se han identificado las siguientes direcciones IP como parte de la infraestructura de ataque de la campaña. Todas pertenecen a **AS14618 (AMAZON-AES)**.
+---
 
-| Indicador | Tipo | Descripción |
-| :--- | :--- | :--- |
-| `44.218.97.232` | IP Address | Nodo de ataque (Ashburn, US) |
-| `44.220.31.157` | IP Address | Nodo de ataque (Ashburn, US) |
-| `44.206.7.122` | IP Address | Nodo de ataque (Ashburn, US) |
-| `44.210.64.196` | IP Address | Nodo de ataque (Ashburn, US) |
-| `44.212.180.197` | IP Address | Nodo de ataque (Ashburn, US) |
-| `3.238.215.143` | IP Address | Nodo de ataque (Ashburn, US) |
-| `44.206.7.134` | IP Address | Nodo de ataque (Ashburn, US) |
-| `3.216.140.96` | IP Address | Nodo de ataque (Ashburn, US) |
-| `3.255.18.223` | IP Address | Nodo de ataque (Dublin, IE) |
-| `44.210.66.100` | IP Address | Nodo de ataque (Ashburn, US) |
+## 5. Indicators of Compromise (IoCs)
 
-## 7. Impacto y Riesgo
+The following IP addresses have been identified as part of the attacker's infrastructure:
 
-*   **Exfiltración de Datos:** Los atacantes pueden robar una amplia gama de información, incluyendo correos electrónicos, archivos de SharePoint/OneDrive (propiedad intelectual, datos financieros, PII), conversaciones de Teams y datos de aplicaciones de terceros conectadas vía SSO (Salesforce, Workday, GitHub).
-*   **Escalada de Privilegios:** El riesgo es **alto**. Los atacantes pueden asignar roles de administrador global, añadir credenciales a aplicaciones o modificar la configuración de federación para obtener control total sobre el tenant.
-*   **Impacto Reputacional y Regulatorio:** Un ataque exitoso puede llevar a una pérdida de confianza del cliente, daño a la marca, multas bajo regulaciones como GDPR o CCPA, y litigios costosos.
+*   `44.218.97.232`
+*   `44.220.31.157`
+*   `44.206.7.122`
+*   `44.210.64.196`
+*   `44.212.180.197`
+*   `3.238.215.143`
+*   `44.206.7.134`
+*   `3.216.140.96`
+*   `3.255.18.223`
+*   `44.210.66.100`
 
-## 8. Detección
+---
 
-La detección se centra en el análisis de los logs `AuditLogs` y `SigninLogs` de Microsoft Entra ID.
+## 6. Impact and Risk
 
-*   **Señales Clave en `SigninLogs`:**
-    *   **Password Spraying:** Gran número de inicios de sesión fallidos (`ResultType: 50126`) desde una misma IP para múltiples usuarios.
-    *   **Viaje Imposible:** Inicios de sesión exitosos para un usuario desde ubicaciones geográficamente imposibles.
-    *   **Acceso desde IPs Anónimas:** Inicios de sesión desde TOR o IPs maliciosas conocidas.
-    *   **Protocolos Heredados:** Uso de IMAP/POP3/SMTP que no soportan MFA.
+### Data Exfiltration Risk
 
-*   **Eventos Clave en `AuditLogs`:**
-    *   **`Add member to role`:** Asignación de roles privilegiados (Global Administrator, etc.).
-    *   **`Update Application - Credentials`:** Adición de nuevas credenciales a una aplicación o Service Principal.
-    *   **`Consent to application`:** Consentimiento a aplicaciones sospechosas o desconocidas.
+*   **Communication Data:** Access to emails (Exchange Online) and Microsoft Teams messages, revealing strategic plans, customer data, and internal discussions.
+*   **Confidential Files:** Access to SharePoint Online and OneDrive, leading to the theft of intellectual property, financial reports, HR files, and legal documents.
+*   **Identity and Configuration Data:** Exfiltration of user lists, organizational structure, and security policy details from Entra ID to plan future attacks.
+*   **Third-Party Application Data:** If Entra ID is used for SSO, the compromise could extend to connected SaaS platforms like Salesforce, Workday, or GitHub.
 
-### Consulta KQL para Detección
+### Operational and Reputational Risk
 
-La siguiente consulta KQL para Microsoft Sentinel puede ayudar a detectar TTPs clave de esta campaña.
+*   **Privilege Escalation:** High potential for attackers to escalate privileges to Global Administrator, leading to full tenant takeover.
+*   **Reputational Impact:** A breach can lead to a loss of customer trust, brand damage, and a negative impact on stock value.
+*   **Regulatory Impact:** The organization could face significant fines under regulations like GDPR and CCPA, mandatory breach notifications, and potential class-action lawsuits.
+
+---
+
+## 7. Detection Measures
+
+Detection relies on monitoring **AuditLogs** and **SigninLogs** in the Microsoft Entra ID environment.
+
+### Key Signals in `SigninLogs`
+
+*   **Massive Sign-in Failures (Password Spraying):** A high volume of failed logins (`ResultType: 50126`) for many different users from a single IP address.
+*   **Impossible Travel:** Successful logins for a single user from geographically distant locations in a short time.
+*   **Logins from Anonymous/Suspicious IPs:** Access attempts from Tor nodes or known malicious IPs.
+*   **Success After Multiple Failures:** A burst of failed login attempts followed by a successful one from the same IP.
+*   **Legacy Authentication Usage:** Logins using protocols like POP3, IMAP, or SMTP that do not support MFA.
+
+### Key Events in `AuditLogs`
+
+*   **Privileged Role Assignment:** Monitor the `Add member to role` event for roles like "Global Administrator," "Privileged Role Administrator," or "Cloud Application Administrator."
+*   **Adding Credentials to Service Principals:** Look for `Update Application - Credentials` or `Add service principal credentials` events, which indicate a persistence technique.
+*   **Federation Settings Changes:** The `Set federation settings on domain` event could indicate an attacker is adding their own identity provider.
+
+### KQL Detection Query
+
+The following KQL query can be used in Microsoft Sentinel to detect activities associated with this campaign.
 
 ```kql
 // This query combines multiple detection techniques for Microsoft Entra ID
 // privilege escalation and password spraying attacks.
 // It is designed to identify several TTPs associated with the "Entra
 // Account Storm" campaign.
+
 // Define a lookback period for the search.
 let lookback = 1d;
+
 // Part 1: Detects the assignment of highly privileged roles in Entra ID.
 // Legitimate administrative activity can trigger this, so review the actor
 // and target context.
 let privilegedRoleAssignments = AuditLogs
-| where TimeGenerated > ago(lookback)
-| where Category == "RoleManagement" and OperationName == "Add member to role"
-| extend RoleDisplayName = tostring(TargetResources[0].modifiedProperties[0].newValue)
-| where RoleDisplayName has_any (
-    "Global Administrator",
-    "Privileged Role Administrator",
-    "Cloud Application Administrator",
-    "Application Administrator",
-    "Hybrid Identity Administrator"
-)
-| extend TargetUser = tostring(TargetResources[0].userPrincipalName)
-| extend Actor = tostring(InitiatedBy.user.userPrincipalName)
-| project
-    TimeGenerated,
-    DetectionType = "Privileged Role Assigned",
-    Actor,
-    TargetUser,
-    RoleAssigned = RoleDisplayName,
-    Description = strcat("User '", Actor, "' assigned role '", RoleAssigned, "' to user '", TargetUser, "'.")
-| extend IPAddress = tostring(InitiatedBy.user.ipAddress);
+ | where TimeGenerated > ago(lookback)
+ | where Category == "RoleManagement" and OperationName == "Add member to role"
+ | extend RoleDisplayName = tostring(TargetResources[0].modifiedProperties[0].newValue)
+ | where RoleDisplayName has_any (
+ "Global Administrator",
+ "Privileged Role Administrator",
+ "Cloud Application Administrator",
+ "Application Administrator",
+ "Hybrid Identity Administrator"
+ )
+ | extend TargetUser = tostring(TargetResources[0].userPrincipalName)
+ | extend Actor = tostring(InitiatedBy.user.userPrincipalName)
+ | project
+     TimeGenerated,
+     DetectionType = "Privileged Role Assigned",
+     Actor,
+     TargetUser,
+     RoleAssigned = RoleDisplayName,
+     Description = strcat("User '", Actor, "' assigned role '", RoleAssigned, "' to user '", TargetUser, "'.")
+ | extend IPAddress = tostring(InitiatedBy.user.ipAddress);
+
 // Part 2: Detects when new credentials are added to an Application or Service Principal.
 // This is a key persistence and escalation technique.
 let credentialAddition = AuditLogs
-| where TimeGenerated > ago(lookback)
-| where OperationName in ("Update Application - Credentials", "Add service principal credentials", "Update service principal credentials")
-| extend TargetName = tostring(TargetResources[0].displayName)
-| extend TargetId = tostring(TargetResources[0].id)
-| extend Actor = tostring(InitiatedBy.user.userPrincipalName)
-| project
-    TimeGenerated,
-    DetectionType = "Credentials Added to Principal",
-    Actor,
-    TargetName,
-    TargetId,
-    Description = strcat("User '", Actor, "' added new credentials to principal '", TargetName, "'.")
-| extend IPAddress = tostring(InitiatedBy.user.ipAddress);
+ | where TimeGenerated > ago(lookback)
+ | where OperationName in ("Update Application - Credentials", "Add service principal credentials", "Update service principal credentials")
+ | extend TargetName = tostring(TargetResources[0].displayName)
+ | extend TargetId = tostring(TargetResources[0].id)
+ | extend Actor = tostring(InitiatedBy.user.userPrincipalName)
+ | project
+     TimeGenerated,
+     DetectionType = "Credentials Added to Principal",
+     Actor,
+     TargetName,
+     TargetId,
+     Description = strcat("User '", Actor, "' added new credentials to principal '", TargetName, "'.")
+ | extend IPAddress = tostring(InitiatedBy.user.ipAddress);
+
 // Part 3: Detects password spraying attacks.
 // A single IP attempting to log in as many different users with a high failure rate.
 // Tune the 'userThreshold' based on your environment's baseline.
 let userThreshold = 15;
 let passwordSpraying = SigninLogs
-| where TimeGenerated > ago(lookback)
-| where ResultType == 50126 // Error code for "Invalid username or password"
-| summarize
-    StartTime = min(TimeGenerated),
-    EndTime = max(TimeGenerated),
-    FailedUserCount = dcount(UserPrincipalName),
-    FailedUsers = make_set(UserPrincipalName, 100)
-by IPAddress, UserAgent
-| where FailedUserCount > userThreshold
-// Optional: Check for any successful logins from the same IP to see if the spray was partially successful.
-| join kind=leftouter (
-    SigninLogs
-    | where TimeGenerated > ago(lookback)
-    | where ResultType == 0
-    | summarize SuccessfulLogins = dcount(UserPrincipalName) by IPAddress
-) on IPAddress
-| project
-    TimeGenerated = StartTime,
-    DetectionType = "Password Spraying Attack",
-    IPAddress,
-    UserAgent,
-    FailedUserCount,
-    SuccessfulLogins = todouble(SuccessfulLogins),
-    Description = strcat("Potential password spray from IP '", IPAddress, "' targeting ", tostring(FailedUserCount), " users.");
+ | where TimeGenerated > ago(lookback)
+ | where ResultType == 50126 // Error code for "Invalid username or password"
+ | summarize
+     StartTime = min(TimeGenerated),
+     EndTime = max(TimeGenerated),
+     FailedUserCount = dcount(UserPrincipalName),
+     FailedUsers = make_set(UserPrincipalName, 100)
+ by IPAddress, UserAgent
+ | where FailedUserCount > userThreshold
+ // Optional: Check for any successful logins from the same IP to see if the spray was partially successful.
+ | join kind=leftouter (
+     SigninLogs
+     | where TimeGenerated > ago(lookback)
+     | where ResultType == 0
+     | summarize SuccessfulLogins = dcount(UserPrincipalName) by IPAddress
+ ) on IPAddress
+ | project
+     TimeGenerated = StartTime,
+     DetectionType = "Password Spraying Attack",
+     IPAddress,
+     UserAgent,
+     FailedUserCount,
+     SuccessfulLogins = todouble(SuccessfulLogins),
+     Description = strcat("Potential password spray from IP '", IPAddress, "' targeting ", tostring(FailedUserCount), " users.");
+
 // Union all detection parts into a single result set.
 union privilegedRoleAssignments, credentialAddition, passwordSpraying
 | project-rename
@@ -187,17 +191,25 @@ union privilegedRoleAssignments, credentialAddition, passwordSpraying
     Description
 ```
 
-## 9. Medidas de Mitigación
+---
 
-*(La sección de mitigación estaba incompleta en el documento de origen. Se recomienda seguir las mejores prácticas de seguridad de Microsoft para Entra ID).*
+## 8. Mitigation Measures
 
-*   **Para T1068 (Explotación para Escalada de Privilegios):**
-    *   Implementar un programa robusto de gestión de parches para corregir vulnerabilidades conocidas de manera oportuna.
-    *   Utilizar controles de aplicación para restringir la ejecución de software no autorizado.
-*   **Para T1110.003 (Password Spraying):**
-    *   Implementar y forzar la **Autenticación Multifactor (MFA)** para todos los usuarios.
-    *   Utilizar **Microsoft Entra Password Protection** para prohibir contraseñas débiles y comunes.
-    *   Bloquear protocolos de autenticación heredados que no soporten MFA.
-*   **Para T1134 (Manipulación de Tokens de Acceso):**
-    *   Aplicar el principio de **mínimo privilegio** a las cuentas de usuario y servicio.
-    *   Monitorizar la creación y modificación de tokens y el uso de APIs de suplantación.
+Based on the observed TTPs, the following mitigation strategies are recommended:
+
+*   **Against T1110.003 (Password Spraying) & T1110 (Brute Force):**
+    *   **Enforce MFA:** Prioritize the enforcement of multi-factor authentication for all users, especially for administrative accounts.
+    *   **Implement Strong Password Policies:** Use Microsoft Entra Password Protection to block weak and compromised passwords.
+    *   **Block Legacy Authentication:** Create Conditional Access policies to block legacy protocols (IMAP, POP3, SMTP) that bypass MFA.
+
+*   **Against T1068 (Exploitation for Privilege Escalation):**
+    *   **Patch Management:** Maintain a robust patch management program to ensure all systems and applications are updated against known vulnerabilities.
+    *   **Principle of Least Privilege:** Assign permissions based on the principle of least privilege. Regularly review and audit administrative roles.
+
+*   **Against T1134 (Access Token Manipulation):**
+    *   **User and Entity Behavior Analytics (UEBA):** Enable and monitor UEBA solutions to detect anomalous token usage and session activities.
+    *   **Conditional Access Policies:** Implement risk-based Conditional Access policies that challenge or block logins based on location, device compliance, and sign-in risk.
+
+*   **General Recommendations:**
+    *   **Block Malicious IPs:** Add the identified IoCs to your firewall or Conditional Access blocklists.
+    *   **Security Awareness Training:** Educate users on recognizing and reporting phishing attempts, which are often precursors to credential compromise.

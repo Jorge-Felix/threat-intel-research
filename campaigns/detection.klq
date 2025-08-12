@@ -1,0 +1,92 @@
+// This query combines multiple detection techniques for Microsoft Entra ID
+// privilege escalation and password spraying attacks.
+// It is designed to identify several TTPs associated with the "Entra
+// Account Storm" campaign.
+
+// Define a lookback period for the search.
+let lookback = 1d;
+
+// Part 1: Detects the assignment of highly privileged roles in Entra ID.
+// Legitimate administrative activity can trigger this, so review the actor
+// and target context.
+let privilegedRoleAssignments = AuditLogs
+ | where TimeGenerated > ago(lookback)
+ | where Category == "RoleManagement" and OperationName == "Add member to role"
+ | extend RoleDisplayName = tostring(TargetResources[0].modifiedProperties[0].newValue)
+ | where RoleDisplayName has_any (
+ "Global Administrator",
+ "Privileged Role Administrator",
+ "Cloud Application Administrator",
+ "Application Administrator",
+ "Hybrid Identity Administrator"
+ )
+ | extend TargetUser = tostring(TargetResources[0].userPrincipalName)
+ | extend Actor = tostring(InitiatedBy.user.userPrincipalName)
+ | project
+     TimeGenerated,
+     DetectionType = "Privileged Role Assigned",
+     Actor,
+     TargetUser,
+     RoleAssigned = RoleDisplayName,
+     Description = strcat("User '", Actor, "' assigned role '", RoleAssigned, "' to user '", TargetUser, "'.")
+ | extend IPAddress = tostring(InitiatedBy.user.ipAddress);
+
+// Part 2: Detects when new credentials are added to an Application or Service Principal.
+// This is a key persistence and escalation technique.
+let credentialAddition = AuditLogs
+ | where TimeGenerated > ago(lookback)
+ | where OperationName in ("Update Application - Credentials", "Add service principal credentials", "Update service principal credentials")
+ | extend TargetName = tostring(TargetResources[0].displayName)
+ | extend TargetId = tostring(TargetResources[0].id)
+ | extend Actor = tostring(InitiatedBy.user.userPrincipalName)
+ | project
+     TimeGenerated,
+     DetectionType = "Credentials Added to Principal",
+     Actor,
+     TargetName,
+     TargetId,
+     Description = strcat("User '", Actor, "' added new credentials to principal '", TargetName, "'.")
+ | extend IPAddress = tostring(InitiatedBy.user.ipAddress);
+
+// Part 3: Detects password spraying attacks.
+// A single IP attempting to log in as many different users with a high failure rate.
+// Tune the 'userThreshold' based on your environment's baseline.
+let userThreshold = 15;
+let passwordSpraying = SigninLogs
+ | where TimeGenerated > ago(lookback)
+ | where ResultType == 50126 // Error code for "Invalid username or password"
+ | summarize
+     StartTime = min(TimeGenerated),
+     EndTime = max(TimeGenerated),
+     FailedUserCount = dcount(UserPrincipalName),
+     FailedUsers = make_set(UserPrincipalName, 100)
+ by IPAddress, UserAgent
+ | where FailedUserCount > userThreshold
+ // Optional: Check for any successful logins from the same IP to see if the spray was partially successful.
+ | join kind=leftouter (
+     SigninLogs
+     | where TimeGenerated > ago(lookback)
+     | where ResultType == 0
+     | summarize SuccessfulLogins = dcount(UserPrincipalName) by IPAddress
+ ) on IPAddress
+ | project
+     TimeGenerated = StartTime,
+     DetectionType = "Password Spraying Attack",
+     IPAddress,
+     UserAgent,
+     FailedUserCount,
+     SuccessfulLogins = todouble(SuccessfulLogins),
+     Description = strcat("Potential password spray from IP '", IPAddress, "' targeting ", tostring(FailedUserCount), " users.");
+
+// Union all detection parts into a single result set.
+union privilegedRoleAssignments, credentialAddition, passwordSpraying
+| project-rename
+    Principal = Actor,
+    Entity = TargetUser
+| project
+    TimeGenerated,
+    DetectionType,
+    Principal,
+    Entity,
+    IPAddress,
+    Description
